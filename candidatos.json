@@ -590,13 +590,212 @@
       ]
     },
     {
+      "ticker": "IMCR",
+      "empresa": "Immunocore",
+      "estado": "Radar",
+      "catalisador": {
+        "tipo": "readout",
+        "data": "2026-12-31",
+        "confirmada": false,
+        "nota": "TEBE-AM Fase 3 lê fim 2026; sBLA cairia na janela"
+      },
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Radar: TEBE-AM Fase 3 lê fim 2026; sBLA cairia na janela"
+        }
+      ]
+    },
+    {
+      "ticker": "LBRX",
+      "empresa": "LB Pharmaceuticals",
+      "estado": "Radar",
+      "catalisador": {
+        "tipo": "readout",
+        "data": "2027-06-30",
+        "confirmada": false,
+        "nota": "NOVA-2 Fase 3 lê H1 2027; PDUFA provável H2 2028"
+      },
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Radar: NOVA-2 Fase 3 lê H1 2027; PDUFA provável H2 2028"
+        }
+      ]
+    },
+    {
       "ticker": "ABOS",
       "empresa": "Acumen Pharmaceuticals",
       "estado": "Descartado",
       "historico": [
         {
           "data": "2026-09-18",
-          "evento": "Fase 2: sem Fase 3; topline Fase 2 fim 2026"
+          "evento": "Fase 2: sem Fase 3; ALTITUDE-AD é Fase 2, topline fim 2026"
+        }
+      ]
+    },
+    {
+      "ticker": "ACAD",
+      "empresa": "Acadia Pharmaceuticals",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: sem Fase 3 positiva; NDA no EDGAR é histórico; empresa comercial"
+        }
+      ]
+    },
+    {
+      "ticker": "AEMD",
+      "empresa": "Aethlon Medical",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: dispositivo em Fase 1; caixa $4,9M"
+        }
+      ]
+    },
+    {
+      "ticker": "AQST",
+      "empresa": "Aquestive Therapeutics",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: 505(b)(2) sem Fase 3; resubmissão pós-CRL fora do âmbito"
+        }
+      ]
+    },
+    {
+      "ticker": "ATOS",
+      "empresa": "Atossa Therapeutics",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: sem Fase 3; Priority Review no EDGAR é voucher potencial"
+        }
+      ]
+    },
+    {
+      "ticker": "BBNX",
+      "empresa": "Beta Bionics",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: medtech; clearance 510(k)"
+        }
+      ]
+    },
+    {
+      "ticker": "CNTB",
+      "empresa": "Connect Biopharma",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: Fase 3 só na China; programa EUA é Fase 2 com primário n.s."
+        }
+      ]
+    },
+    {
+      "ticker": "CRBP",
+      "empresa": "Corbus Pharmaceuticals",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: Fase 3 TEMPO-1 a iniciar; Fase 3 anterior falhou"
+        }
+      ]
+    },
+    {
+      "ticker": "EVMN",
+      "empresa": "Evommune",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: só Fase 2b; CSU falhou primário"
+        }
+      ]
+    },
+    {
+      "ticker": "IRD",
+      "empresa": "Opus Genetics",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: PDUFA 17-10-2026 fora da janela; caixa curta"
+        }
+      ]
+    },
+    {
+      "ticker": "KPTI",
+      "empresa": "Karyopharm",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: SENTRY falhou co-primário TSS; sNDA sob Accelerated Approval"
+        }
+      ]
+    },
+    {
+      "ticker": "LSTA",
+      "empresa": "Lisata / Marea",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: reverse merger 17-09-2026; sem Fase 3"
+        }
+      ]
+    },
+    {
+      "ticker": "QTTB",
+      "empresa": "Q32 Bio",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: Fase 2a open-label; Fase 3 só H1 2027"
+        }
+      ]
+    },
+    {
+      "ticker": "TENX",
+      "empresa": "Tenax Therapeutics",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: LEVEL falhou primário 6MWD p=0,63; tese de subgrupo"
+        }
+      ]
+    },
+    {
+      "ticker": "ADCT",
+      "empresa": "ADC Therapeutics",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: via regulatória incerta após pré-sBLA"
+        }
+      ]
+    },
+    {
+      "ticker": "SGMT",
+      "empresa": "Sagimet",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: Fase 3 EUA ainda a decorrer; FASCINIT retirado"
         }
       ]
     }
