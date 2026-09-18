@@ -588,6 +588,17 @@
           "evento": "INDIGO positivo; ação −52%"
         }
       ]
+    },
+    {
+      "ticker": "ABOS",
+      "empresa": "Acumen Pharmaceuticals",
+      "estado": "Descartado",
+      "historico": [
+        {
+          "data": "2026-09-18",
+          "evento": "Fase 2: sem Fase 3; topline Fase 2 fim 2026"
+        }
+      ]
     }
   ],
   "alertas": [
