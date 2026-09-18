@@ -1,0 +1,637 @@
+{
+  "atualizado": "2026-09-18",
+  "janela": {
+    "inicio": "2027-03-18",
+    "fim": "2028-03-18"
+  },
+  "limiar_janela_pct": 65,
+  "candidatos": [
+    {
+      "ticker": "IDYA",
+      "empresa": "IDEAYA Biosciences",
+      "farmaco": "darovasertib + crizotinib",
+      "indicacao": "melanoma uveal metastático, 1L, HLA-A*02:01-negativo",
+      "estado": "Ativo",
+      "cenario": "B",
+      "validacao": "A",
+      "catalisador": {
+        "tipo": "PDUFA",
+        "data": "2027-06-30",
+        "confirmada": false,
+        "nota": "NDA rolling RTOR; aprovação alvo H1 2027 (guidance)"
+      },
+      "base": {
+        "data": "2026-04-10",
+        "preco": 33.0,
+        "estimada": true
+      },
+      "preco_atual": 38.5,
+      "var_pct": 17,
+      "recuperou": null,
+      "janela": "aberta",
+      "conviccao": "alta-media",
+      "runway_trimestres": 14,
+      "riscos": [
+        "sem PDUFA atribuída",
+        "dependência da Servier fora dos EUA",
+        "label estreito"
+      ],
+      "risco_extensao": "moderado",
+      "historico": [
+        {
+          "data": "2026-04-13",
+          "evento": "OptimUM-02 positivo: PFS 6,9 vs 3,1 m, HR 0,42"
+        },
+        {
+          "data": "2026-06-01",
+          "evento": "Dados detalhados no ASCO 2026"
+        },
+        {
+          "data": "2026-09-08",
+          "evento": "3 de 4 módulos da NDA submetidos (Wells Fargo)"
+        }
+      ]
+    },
+    {
+      "ticker": "PHVS",
+      "empresa": "Pharvaris",
+      "farmaco": "deucrictibant IR",
+      "indicacao": "angioedema hereditário, tratamento on-demand",
+      "estado": "Ativo",
+      "cenario": "C",
+      "validacao": "B",
+      "catalisador": {
+        "tipo": "PDUFA",
+        "data": "2027-04-23",
+        "confirmada": true
+      },
+      "base": {
+        "data": "2025-12-02",
+        "preco": 29.0,
+        "estimada": true
+      },
+      "preco_atual": 39.0,
+      "var_pct": 34,
+      "recuperou": null,
+      "janela": "parcialmente aberta",
+      "conviccao": "media-alta",
+      "runway_trimestres": 7,
+      "riscos": [
+        "Ekterly (KalVista) já aprovado on-demand oral",
+        "sem publicação peer-reviewed",
+        "run-up recente a máximos"
+      ],
+      "risco_extensao": "moderado-baixo",
+      "historico": [
+        {
+          "data": "2025-12-03",
+          "evento": "RAPIDe-3 positivo: primário e 11 secundários"
+        },
+        {
+          "data": "2026-07-15",
+          "evento": "NDA aceite, PDUFA 23-04-2027"
+        },
+        {
+          "data": "2026-09-08",
+          "evento": "CHAPTER-3 (profilaxia XR) positivo; máximo 52 sem."
+        }
+      ]
+    },
+    {
+      "ticker": "IMNM",
+      "empresa": "Immunome",
+      "farmaco": "varegacestat",
+      "indicacao": "tumores desmoides progressivos",
+      "estado": "Ativo",
+      "cenario": "C",
+      "validacao": "A",
+      "catalisador": {
+        "tipo": "PDUFA",
+        "data": "2027-04-28",
+        "confirmada": true
+      },
+      "base": {
+        "data": "2025-12-12",
+        "preco": 13.5,
+        "estimada": true
+      },
+      "preco_atual": 22.5,
+      "var_pct": 65,
+      "recuperou": null,
+      "janela": "parcialmente fechada",
+      "conviccao": "media-alta",
+      "runway_trimestres": 8,
+      "riscos": [
+        "segundo GSI atrás do Ogsiveo",
+        "ativo único",
+        "short interest 17% do float"
+      ],
+      "risco_extensao": "moderado",
+      "historico": [
+        {
+          "data": "2025-12-15",
+          "evento": "RINGSIDE positivo: PFS HR 0,16"
+        },
+        {
+          "data": "2026-05-30",
+          "evento": "Oral no ASCO 2026"
+        },
+        {
+          "data": "2026-07-08",
+          "evento": "NDA aceite, PDUFA 28-04-2027"
+        }
+      ]
+    },
+    {
+      "ticker": "ABVX",
+      "empresa": "Abivax",
+      "farmaco": "obefazimod",
+      "indicacao": "colite ulcerosa moderada a grave",
+      "estado": "Ativo",
+      "cenario": "A",
+      "validacao": "B",
+      "catalisador": {
+        "tipo": "PDUFA",
+        "data": "2027-10-31",
+        "confirmada": false,
+        "nota": "NDA prevista fim Q4 2026; revisão standard 10 meses"
+      },
+      "base": {
+        "data": "2026-05-29",
+        "preco": 132.63,
+        "estimada": false
+      },
+      "preco_atual": 115.0,
+      "var_pct": -13,
+      "recuperou": true,
+      "janela": "aberta por de-rating",
+      "conviccao": "media",
+      "runway_trimestres": 11,
+      "riscos": [
+        "malignidades a 50 mg → label risk",
+        "Nível B sem peer-review",
+        "CU muito competitiva"
+      ],
+      "risco_extensao": "moderado",
+      "historico": [
+        {
+          "data": "2026-06-01",
+          "evento": "ABTECT manutenção positivo; queda 44% no sinal de malignidade"
+        },
+        {
+          "data": "2026-06-30",
+          "evento": "Dados integrados de segurança; recuperação +37%"
+        },
+        {
+          "data": "2026-07-02",
+          "evento": "Oferta $800M a $125/ADS; runway até Q2 2029"
+        },
+        {
+          "data": "2026-07-30",
+          "evento": "Interação pré-NDA positiva com a FDA"
+        }
+      ]
+    },
+    {
+      "ticker": "PVLA",
+      "empresa": "Palvella Therapeutics",
+      "farmaco": "QTORIN rapamicina 3,9%",
+      "indicacao": "malformações linfáticas microcísticas",
+      "estado": "Análise",
+      "cenario": "B",
+      "validacao": "B",
+      "catalisador": {
+        "tipo": "PDUFA",
+        "data": "2027-06-30",
+        "confirmada": false,
+        "nota": "NDA submetida 31-08-2026; decisão de filing ~fim out 2026"
+      },
+      "base": {
+        "data": "2026-02-23",
+        "preco": 92.0,
+        "estimada": true
+      },
+      "preco_atual": 153.0,
+      "var_pct": 66,
+      "recuperou": null,
+      "janela": "parcialmente fechada",
+      "conviccao": "media",
+      "runway_trimestres": 10,
+      "riscos": [
+        "+60–70% desde a base",
+        "NDA ainda não aceite",
+        "braço único, sem peer-review"
+      ],
+      "risco_extensao": "moderado-elevado",
+      "historico": [
+        {
+          "data": "2026-02-24",
+          "evento": "SELVA positivo: mLM-IGA +2,13, p<0,001"
+        },
+        {
+          "data": "2026-02-27",
+          "evento": "Oferta $230M a $125"
+        },
+        {
+          "data": "2026-08-31",
+          "evento": "Submissão rolling da NDA concluída"
+        }
+      ]
+    },
+    {
+      "ticker": "DFTX",
+      "empresa": "Definium Therapeutics",
+      "farmaco": "DT120 (lisergida ODT)",
+      "indicacao": "perturbação de ansiedade generalizada e depressão major",
+      "estado": "Análise",
+      "cenario": "A",
+      "validacao": "C",
+      "catalisador": {
+        "tipo": "NDA",
+        "data": "2027-06-30",
+        "confirmada": false,
+        "nota": "Submissão prevista H1 2027; PDUFA provável fim 2027/início 2028"
+      },
+      "base": {
+        "data": null,
+        "preco": null,
+        "estimada": true
+      },
+      "preco_atual": null,
+      "var_pct": null,
+      "recuperou": null,
+      "janela": "aberta",
+      "conviccao": "media-baixa",
+      "runway_trimestres": null,
+      "riscos": [
+        "psicadélico Schedule I: DEA + REMS",
+        "dados só top-line (Nível C)",
+        "caixa por confirmar"
+      ],
+      "risco_extensao": "n/a",
+      "historico": [
+        {
+          "data": "2026-06-15",
+          "evento": "Emerge (MDD) positivo: MADRS −8,1 vs placebo"
+        },
+        {
+          "data": "2026-08-15",
+          "evento": "Voyage (GAD) positivo"
+        },
+        {
+          "data": "2026-09-10",
+          "evento": "Panorama (GAD) positivo"
+        }
+      ]
+    },
+    {
+      "ticker": "CELC",
+      "empresa": "Celcuity",
+      "farmaco": "gedatolisib",
+      "indicacao": "cancro da mama HR+/HER2− PIK3CA-mutante (sNDA)",
+      "estado": "Radar",
+      "cenario": "B",
+      "validacao": "A",
+      "catalisador": {
+        "tipo": "PDUFA",
+        "data": "2027-03-31",
+        "confirmada": false,
+        "nota": "sNDA submetida 26-08-2026; já comercial na coorte WT"
+      },
+      "base": {
+        "data": null,
+        "preco": null,
+        "estimada": true
+      },
+      "preco_atual": null,
+      "var_pct": null,
+      "recuperou": null,
+      "janela": "fechada/parcial",
+      "conviccao": "media",
+      "runway_trimestres": null,
+      "riscos": [
+        "expansão de label, não catalisador binário",
+        "valorização já elevada",
+        "estomatite/hiperglicemia"
+      ],
+      "risco_extensao": "moderado",
+      "historico": [
+        {
+          "data": "2026-07-14",
+          "evento": "Aprovação FDA coorte PIK3CA wild-type"
+        },
+        {
+          "data": "2026-08-26",
+          "evento": "sNDA coorte mutante submetida"
+        }
+      ]
+    },
+    {
+      "ticker": "CLDX",
+      "empresa": "Celldex",
+      "farmaco": "barzolvolimab",
+      "indicacao": "urticária crónica espontânea",
+      "estado": "Expirado",
+      "cenario": null,
+      "validacao": null,
+      "catalisador": {
+        "tipo": "readout Fase 3",
+        "data": "2026-12-15",
+        "confirmada": false,
+        "nota": "Pré-Fase 3; só entra no funil após readout positivo"
+      },
+      "base": {
+        "data": null,
+        "preco": null,
+        "estimada": true
+      },
+      "preco_atual": null,
+      "var_pct": null,
+      "recuperou": null,
+      "janela": "n/a",
+      "conviccao": "baixa",
+      "runway_trimestres": null,
+      "riscos": [
+        "programa de prurigo nodular falhou em jul 2026",
+        "readout binário Q4 2026"
+      ],
+      "risco_extensao": "n/a",
+      "historico": []
+    },
+    {
+      "ticker": "XENE",
+      "empresa": "Xenon Pharmaceuticals",
+      "farmaco": "azetukalner",
+      "indicacao": "crises de início focal",
+      "estado": "Expirado",
+      "cenario": "A",
+      "validacao": "A",
+      "catalisador": {
+        "tipo": "PDUFA",
+        "data": "2027-07-31",
+        "confirmada": false,
+        "nota": "NDA Q3 2026; saída da lista por decisão (sem posição, pouco a reprecificar)"
+      },
+      "base": {
+        "data": "2026-03-06",
+        "preco": 44.21,
+        "estimada": false
+      },
+      "preco_atual": 64.0,
+      "var_pct": 45,
+      "recuperou": null,
+      "janela": "aberta na letra",
+      "conviccao": "media",
+      "runway_trimestres": 12,
+      "riscos": [
+        "mercado de ASM saturado",
+        "sem designações aceleradas"
+      ],
+      "risco_extensao": "moderado",
+      "historico": [
+        {
+          "data": "2026-03-09",
+          "evento": "X-TOLE2 positivo; +46%"
+        }
+      ]
+    },
+    {
+      "ticker": "MLYS",
+      "empresa": "Mineralys",
+      "farmaco": "lorundrostat",
+      "indicacao": "hipertensão não controlada",
+      "estado": "Expirado",
+      "cenario": "C",
+      "validacao": "A",
+      "catalisador": {
+        "tipo": "PDUFA",
+        "data": "2026-12-22",
+        "confirmada": true
+      },
+      "base": {
+        "data": null,
+        "preco": null,
+        "estimada": true
+      },
+      "preco_atual": null,
+      "var_pct": null,
+      "recuperou": null,
+      "janela": "fechada",
+      "conviccao": "baixa",
+      "runway_trimestres": 8,
+      "riscos": [],
+      "risco_extensao": "baixo",
+      "historico": [
+        {
+          "data": "2026-05-01",
+          "evento": "NDA aceite, PDUFA 22-12-2026"
+        }
+      ]
+    },
+    {
+      "ticker": "PRAX",
+      "empresa": "Praxis Precision Medicines",
+      "farmaco": "ulixacaltamide",
+      "indicacao": "tremor essencial",
+      "estado": "Expirado",
+      "cenario": "C",
+      "validacao": "B",
+      "catalisador": {
+        "tipo": "PDUFA",
+        "data": "2027-01-29",
+        "confirmada": true
+      },
+      "base": {
+        "data": null,
+        "preco": null,
+        "estimada": true
+      },
+      "preco_atual": null,
+      "var_pct": null,
+      "recuperou": null,
+      "janela": "fechada",
+      "conviccao": "baixa",
+      "runway_trimestres": 8,
+      "riscos": [
+        "relutrigine da mesma empresa teve extensão de 3 meses"
+      ],
+      "risco_extensao": "elevado",
+      "historico": []
+    },
+    {
+      "ticker": "CMPS",
+      "empresa": "Compass Pathways",
+      "farmaco": "COMP360",
+      "indicacao": "depressão resistente ao tratamento",
+      "estado": "Expirado",
+      "cenario": "B",
+      "validacao": "B",
+      "catalisador": {
+        "tipo": "CNPV",
+        "data": "2027-01-31",
+        "confirmada": false,
+        "nota": "Revisão CNPV 1–2 meses após submissão Q4 2026"
+      },
+      "base": {
+        "data": null,
+        "preco": null,
+        "estimada": true
+      },
+      "preco_atual": 11.35,
+      "var_pct": 0,
+      "recuperou": null,
+      "janela": "fechada por timing",
+      "conviccao": "media-baixa",
+      "runway_trimestres": 7,
+      "riscos": [
+        "REMS/DEA",
+        "timing CNPV antecipa decisão"
+      ],
+      "risco_extensao": "n/a",
+      "historico": []
+    },
+    {
+      "ticker": "NUVL",
+      "empresa": "Nuvalent",
+      "farmaco": "neladalkib",
+      "indicacao": "NSCLC ALK+",
+      "estado": "Excluído",
+      "cenario": "C",
+      "validacao": "A",
+      "catalisador": {
+        "tipo": "PDUFA",
+        "data": "2026-11-27",
+        "confirmada": true
+      },
+      "base": {
+        "data": null,
+        "preco": null,
+        "estimada": true
+      },
+      "preco_atual": null,
+      "var_pct": null,
+      "recuperou": null,
+      "janela": "n/a",
+      "conviccao": null,
+      "runway_trimestres": null,
+      "riscos": [],
+      "risco_extensao": "n/a",
+      "historico": [
+        {
+          "data": "2026-07-15",
+          "evento": "Adquirida pela GSK por ~$10,6 mil M"
+        }
+      ]
+    },
+    {
+      "ticker": "RVMD",
+      "empresa": "Revolution Medicines",
+      "farmaco": "daraxonrasib",
+      "indicacao": "PDAC metastático previamente tratado",
+      "estado": "Excluído",
+      "cenario": "C",
+      "validacao": "A",
+      "catalisador": {
+        "tipo": "CNPV",
+        "data": "2027-01-31",
+        "confirmada": false
+      },
+      "base": {
+        "data": "2026-04-10",
+        "preco": 93.0,
+        "estimada": true
+      },
+      "preco_atual": 180.0,
+      "var_pct": 94,
+      "recuperou": null,
+      "janela": "fechada",
+      "conviccao": null,
+      "runway_trimestres": 16,
+      "riscos": [
+        "+125% no ano",
+        "decisão CNPV antes da janela"
+      ],
+      "risco_extensao": "n/a",
+      "historico": []
+    },
+    {
+      "ticker": "ZBIO",
+      "empresa": "Zenas BioPharma",
+      "farmaco": "obexelimab",
+      "indicacao": "doença relacionada com IgG4",
+      "estado": "Excluído",
+      "cenario": "B",
+      "validacao": "A",
+      "catalisador": {
+        "tipo": "PDUFA",
+        "data": "2027-06-30",
+        "confirmada": false
+      },
+      "base": {
+        "data": "2026-01-02",
+        "preco": 41.0,
+        "estimada": true
+      },
+      "preco_atual": 18.4,
+      "var_pct": -55,
+      "recuperou": false,
+      "janela": "n/a",
+      "conviccao": null,
+      "runway_trimestres": 11,
+      "riscos": [
+        "caiu 52% nos dados: 56% vs 87% do Uplizna"
+      ],
+      "risco_extensao": "n/a",
+      "historico": [
+        {
+          "data": "2026-01-05",
+          "evento": "INDIGO positivo; ação −52%"
+        }
+      ]
+    }
+  ],
+  "alertas": [
+    {
+      "data": "2026-09-18",
+      "ticker": "CLDX",
+      "tipo": "expirado",
+      "texto": "Catalisador a 2026-12-15 ficou abaixo de 6 meses"
+    },
+    {
+      "data": "2026-09-18",
+      "ticker": "IDYA",
+      "tipo": "novo",
+      "texto": "Entrou como Ativo após varredura; PDUFA por atribuir"
+    },
+    {
+      "data": "2026-09-18",
+      "ticker": "PVLA",
+      "tipo": "novo",
+      "texto": "Em Análise; NDA submetida 31-08, decisão de filing ~fim out"
+    },
+    {
+      "data": "2026-09-15",
+      "ticker": "NUVL",
+      "tipo": "excluido",
+      "texto": "Adquirida pela GSK em julho de 2026"
+    },
+    {
+      "data": "2026-09-15",
+      "ticker": "PRAX",
+      "tipo": "expirado",
+      "texto": "PDUFA 29-01-2027 abaixo de 6 meses"
+    },
+    {
+      "data": "2026-09-08",
+      "ticker": "PHVS",
+      "tipo": "run-up",
+      "texto": "Máximo de 52 semanas ($47,89) com dados CHAPTER-3"
+    },
+    {
+      "data": "2026-09-02",
+      "ticker": "ABVX",
+      "tipo": "correcao",
+      "texto": "Base corrigida para $132,63 (29-05); var. −13%, recuperou"
+    }
+  ]
+}

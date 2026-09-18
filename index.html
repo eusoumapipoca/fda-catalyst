@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FDA Catalyst Watch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #1b1712;
+    --panel: #221d16;
+    --rule: #3b3327;
+    --ink: #e9dfc8;
+    --dim: #9a8c6e;
+    --amber: #f2b23b;
+    --amber-soft: #b98329;
+    --up: #8fcb7a;
+    --down: #e06b4a;
+    --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    margin: 0; color: var(--ink); background: var(--bg);
+    font: 400 14px/1.55 var(--mono);
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-soft); }
+  a:hover, a:focus-visible { border-bottom-color: var(--amber); }
+  :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  header { border-bottom: 2px double var(--rule); padding-bottom: 16px; margin-bottom: 28px; }
+  header h1 { margin: 0 0 4px; font-size: 26px; font-weight: 600; letter-spacing: -0.01em; color: var(--amber); }
+  header h1 span { color: var(--dim); font-weight: 400; }
+  header p { margin: 0; color: var(--dim); }
+  header p b { color: var(--ink); font-weight: 500; }
+
+  section { margin: 0 0 40px; }
+  section h2 { font-size: 15px; font-weight: 600; margin: 0 0 10px; color: var(--ink); }
+  section h2::before { content: "> "; color: var(--amber); }
+  .lead { color: var(--dim); margin: 0 0 14px; max-width: 72ch; }
+
+  /* timeline */
+  .timeline { border: 1px solid var(--rule); background: var(--panel); padding: 12px 8px 6px; overflow-x: auto; }
+  .timeline svg { display: block; width: 100%; height: auto; min-width: 640px; }
+  .timeline text { font-family: var(--mono); fill: var(--ink); font-size: 11px; }
+  .timeline .axis text { fill: var(--dim); }
+  .timeline .band { fill: var(--amber); opacity: 0.08; }
+  .timeline .band-edge { stroke: var(--amber-soft); stroke-dasharray: 3 3; }
+  .timeline .today { stroke: var(--ink); }
+  .timeline .mark-confirmed { fill: var(--amber); }
+  .timeline .mark-est { fill: var(--panel); stroke: var(--amber); stroke-width: 1.5; }
+  .timeline .mark-radar { fill: var(--dim); }
+  .legend { color: var(--dim); font-size: 12px; margin: 8px 0 0; display: flex; gap: 18px; flex-wrap: wrap; }
+  .legend i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
+  .legend .c { background: var(--amber); }
+  .legend .e { border: 1.5px solid var(--amber); }
+  .legend .r { background: var(--dim); }
+
+  /* table */
+  .tablewrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--panel); }
+  table { border-collapse: collapse; width: 100%; min-width: 860px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { color: var(--dim); font-weight: 500; }
+  tbody tr:last-child td { border-bottom: 0; }
+  td.t { color: var(--amber); font-weight: 600; white-space: nowrap; }
+  td .sub { color: var(--dim); display: block; font-size: 12px; }
+  td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .pos { color: var(--up); } .neg { color: var(--down); } .warn { color: var(--amber); }
+  .pill { display: inline-block; padding: 1px 7px; border: 1px solid var(--rule); color: var(--dim); font-size: 12px; white-space: nowrap; }
+  .pill.ativo { border-color: var(--amber-soft); color: var(--amber); }
+  .pill.analise { border-color: var(--dim); color: var(--ink); }
+  details { margin-top: 10px; }
+  summary { cursor: pointer; color: var(--dim); }
+  summary:hover { color: var(--ink); }
+
+  /* bars */
+  .bars { border: 1px solid var(--rule); background: var(--panel); padding: 14px 12px 10px; }
+  .bar-row { display: grid; grid-template-columns: 64px 1fr 64px; gap: 10px; align-items: center; margin: 6px 0; }
+  .bar-row .lbl { color: var(--amber); font-weight: 600; }
+  .bar-track { position: relative; height: 16px; background: var(--bg); border: 1px solid var(--rule); }
+  .bar-fill { position: absolute; top: 0; bottom: 0; }
+  .bar-fill.pos { background: var(--up); opacity: .85; }
+  .bar-fill.neg { background: var(--down); opacity: .85; }
+  .bar-zero { position: absolute; top: -2px; bottom: -2px; width: 1px; background: var(--ink); }
+  .bar-thr { position: absolute; top: -2px; bottom: -2px; width: 0; border-left: 1px dashed var(--amber); }
+  .bar-row .val { text-align: right; font-variant-numeric: tabular-nums; }
+  .bar-note { color: var(--dim); font-size: 12px; margin: 8px 0 0; }
+
+  /* alerts */
+  .alerts { list-style: none; margin: 0; padding: 0; border: 1px solid var(--rule); background: var(--panel); }
+  .alerts li { display: grid; grid-template-columns: 96px 64px 1fr; gap: 12px; padding: 8px 12px; border-bottom: 1px solid var(--rule); }
+  .alerts li:last-child { border-bottom: 0; }
+  .alerts .d { color: var(--dim); }
+  .alerts .k { color: var(--amber); font-weight: 600; }
+  .alerts .tipo { color: var(--dim); }
+
+  footer { border-top: 1px solid var(--rule); padding-top: 14px; color: var(--dim); font-size: 12px; }
+  footer p { margin: 0 0 6px; max-width: 80ch; }
+
+  .empty, .error { padding: 18px; border: 1px dashed var(--rule); color: var(--dim); }
+  .error b { color: var(--down); }
+
+  @media (max-width: 720px) {
+    .wrap { padding: 20px 14px 48px; }
+    header h1 { font-size: 21px; }
+    .bar-row { grid-template-columns: 52px 1fr 56px; }
+    .alerts li { grid-template-columns: 84px 1fr; }
+    .alerts li .k { grid-column: 2; }
+    .alerts li .tx { grid-column: 1 / -1; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .bar-fill { transition: width .35s ease; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>FDA Catalyst Watch <span>/ Confluens</span></h1>
+    <p id="meta">A carregar candidatos.json…</p>
+  </header>
+
+  <section id="s-timeline">
+    <h2>Catalisadores na janela</h2>
+    <p class="lead">Data de decisão da FDA por candidato. A banda marca a janela rolante de 6 a 18 meses; quem cai à esquerda expira, quem cai à direita ainda não conta.</p>
+    <div class="timeline" id="timeline"></div>
+    <p class="legend"><span><i class="c"></i>PDUFA confirmada</span><span><i class="e"></i>data estimada</span><span><i class="r"></i>radar (pré-catalisador)</span></p>
+  </section>
+
+  <section id="s-table">
+    <h2>Candidatos</h2>
+    <p class="lead">Ordenados por convicção. A variação mede o fecho anterior aos dados de Fase 3 até ao último preço registado.</p>
+    <div class="tablewrap"><table id="tabela"></table></div>
+    <details id="arquivo"><summary>Expirados e excluídos</summary><div class="tablewrap" style="margin-top:8px"><table id="tabela-arquivo"></table></div></details>
+  </section>
+
+  <section id="s-bars">
+    <h2>Valorização desde os dados</h2>
+    <p class="lead">Acima da linha tracejada a janela de entrada está provavelmente fechada. Negativo sem recuperação não conta como aberta.</p>
+    <div class="bars" id="bars"></div>
+  </section>
+
+  <section id="s-alerts">
+    <h2>Alertas recentes</h2>
+    <ul class="alerts" id="alertas"></ul>
+  </section>
+
+  <footer>
+    <p>Estados: Radar, Triagem, Análise, Ativo, Posição, Fechado; laterais Descartado, Expirado, Excluído.</p>
+    <p>Só percentagens, sem valores monetários. Investigação e educação financeira pessoal; não constitui recomendação de investimento.</p>
+    <p><a href="https://confluens.carrd.co">Confluens</a>, onde as coisas convergem.</p>
+  </footer>
+</div>
+
+<script>
+(async function () {
+  const $ = (id) => document.getElementById(id);
+  const fmtDate = (s) => {
+    if (!s) return "—";
+    const [y, m, d] = s.split("-");
+    return `${d}-${m}-${y}`;
+  };
+  const fmtPct = (v) => v == null ? "—" : `${v > 0 ? "+" : ""}${v}%`;
+  const ORDEM_CONV = { "alta": 0, "alta-media": 1, "media-alta": 2, "media": 3, "media-baixa": 4, "baixa": 5 };
+  const ORDEM_ESTADO = { "Ativo": 0, "Análise": 1, "Analise": 1, "Triagem": 2, "Radar": 3, "Posição": -1, "Posicao": -1 };
+  const ARQUIVO = new Set(["Expirado", "Excluído", "Excluido", "Descartado", "Fechado"]);
+  const labelConv = (c) => ({ "alta": "alta", "alta-media": "alta-média", "media-alta": "média-alta", "media": "média", "media-baixa": "média-baixa", "baixa": "baixa" }[c] || "—");
+
+  let dados;
+  try {
+    const r = await fetch("candidatos.json", { cache: "no-store" });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    dados = await r.json();
+  } catch (e) {
+    $("meta").innerHTML = `<b style="color:var(--down)">Não consegui ler candidatos.json</b> (${e.message}). Se abriste o ficheiro localmente, serve a pasta com um servidor simples ou publica no GitHub Pages.`;
+    return;
+  }
+
+  const janela = dados.janela || {};
+  const limiar = dados.limiar_janela_pct ?? 65;
+  $("meta").innerHTML = `Janela <b>${fmtDate(janela.inicio)}</b> a <b>${fmtDate(janela.fim)}</b>. Atualizado a <b>${fmtDate(dados.atualizado)}</b>.`;
+
+  const cands = (dados.candidatos || []).slice();
+  const vivos = cands.filter(c => !ARQUIVO.has(c.estado));
+  const arquivo = cands.filter(c => ARQUIVO.has(c.estado));
+  const byConv = (a, b) => (ORDEM_ESTADO[a.estado] ?? 9) - (ORDEM_ESTADO[b.estado] ?? 9) || (ORDEM_CONV[a.conviccao] ?? 9) - (ORDEM_CONV[b.conviccao] ?? 9);
+  vivos.sort(byConv);
+
+  // ---- timeline -------------------------------------------------------
+  (function timeline() {
+    const hoje = new Date(dados.atualizado || Date.now());
+    const ini = new Date(janela.inicio), fim = new Date(janela.fim);
+    const t0 = new Date(hoje); t0.setMonth(t0.getMonth() - 1);
+    const t1 = new Date(fim); t1.setMonth(t1.getMonth() + 2);
+    const W = 1040, H = 150, L = 20, R = 20, y = 92;
+    const x = (d) => L + (W - L - R) * (d - t0) / (t1 - t0);
+    const pts = vivos.filter(c => c.catalisador && c.catalisador.data).map(c => ({ c, d: new Date(c.catalisador.data) }));
+    pts.sort((a, b) => a.d - b.d);
+
+    let ticks = "";
+    const cur = new Date(t0.getFullYear(), t0.getMonth() + 1, 1);
+    while (cur <= t1) {
+      const xx = x(cur);
+      const first = cur.getMonth() === 0;
+      ticks += `<line x1="${xx}" y1="${y}" x2="${xx}" y2="${y + (first ? 10 : 5)}" stroke="var(--rule)"/>`;
+      if (cur.getMonth() % 3 === 0) ticks += `<text x="${xx}" y="${y + 24}" text-anchor="middle">${["jan","abr","jul","out"][cur.getMonth()/3]} ${String(cur.getFullYear()).slice(2)}</text>`;
+      cur.setMonth(cur.getMonth() + 1);
+    }
+
+    // labels alternate above/below to avoid collisions
+    let marks = "";
+    pts.forEach((p, i) => {
+      const xx = x(p.d);
+      const conf = p.c.catalisador.confirmada;
+      const radar = p.c.estado === "Radar";
+      const cls = radar ? "mark-radar" : conf ? "mark-confirmed" : "mark-est";
+      const up = i % 2 === 0;
+      const ly = up ? y - 30 - (i % 4 === 0 ? 0 : 16) : y + 44 + (i % 4 === 1 ? 0 : 16);
+      marks += `<line x1="${xx}" y1="${y}" x2="${xx}" y2="${ly + (up ? 4 : -12)}" stroke="var(--rule)"/>`;
+      marks += `<circle cx="${xx}" cy="${y}" r="5" class="${cls}"/>`;
+      marks += `<text x="${xx}" y="${ly}" text-anchor="middle" style="font-weight:600">${p.c.ticker}</text>`;
+      marks += `<text x="${xx}" y="${ly + 12}" text-anchor="middle" style="fill:var(--dim);font-size:10px">${fmtDate(p.c.catalisador.data).slice(0, 5)}</text>`;
+    });
+
+    $("timeline").innerHTML = `
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Linha temporal dos catalisadores">
+        <rect class="band" x="${x(ini)}" y="20" width="${x(fim) - x(ini)}" height="${H - 40}"/>
+        <line class="band-edge" x1="${x(ini)}" y1="20" x2="${x(ini)}" y2="${H - 20}"/>
+        <line class="band-edge" x1="${x(fim)}" y1="20" x2="${x(fim)}" y2="${H - 20}"/>
+        <line x1="${L}" y1="${y}" x2="${W - R}" y2="${y}" stroke="var(--rule)"/>
+        <g class="axis">${ticks}</g>
+        <line class="today" x1="${x(hoje)}" y1="${y - 8}" x2="${x(hoje)}" y2="${y + 8}"/>
+        <text x="${x(hoje)}" y="${y - 12}" text-anchor="middle" style="fill:var(--dim);font-size:10px">hoje</text>
+        <text x="${x(ini) + 4}" y="${H - 6}" style="fill:var(--amber-soft);font-size:10px">6 meses</text>
+        <text x="${x(fim) - 4}" y="${H - 6}" text-anchor="end" style="fill:var(--amber-soft);font-size:10px">18 meses</text>
+        ${marks}
+      </svg>`;
+  })();
+
+  // ---- tables ---------------------------------------------------------
+  function linha(c) {
+    const v = c.var_pct;
+    const vcls = v == null ? "" : v >= limiar ? "warn" : v < 0 ? "neg" : "pos";
+    const rec = v != null && v < 0 ? (c.recuperou === true ? " (recuperou)" : c.recuperou === false ? " (não recuperou)" : "") : "";
+    const base = c.base && c.base.data ? `<span class="sub">base ${fmtDate(c.base.data)}${c.base.estimada ? ", est." : ""}</span>` : "";
+    const cat = c.catalisador || {};
+    const estCls = c.estado === "Ativo" ? "ativo" : /an[aá]lise/i.test(c.estado) ? "analise" : "";
+    return `<tr>
+      <td class="t">${c.ticker}<span class="sub" style="font-weight:400">${c.empresa || ""}</span></td>
+      <td>${c.farmaco || ""}<span class="sub">${c.indicacao || ""}</span></td>
+      <td><span class="pill ${estCls}">${c.estado}</span></td>
+      <td>${c.cenario || "—"} / ${c.validacao || "—"}</td>
+      <td>${cat.tipo || "—"} ${fmtDate(cat.data)}${cat.confirmada === false ? '<span class="sub">estimada</span>' : ""}</td>
+      <td class="num ${vcls}">${fmtPct(v)}${rec}${base}</td>
+      <td>${c.janela || "—"}</td>
+      <td>${labelConv(c.conviccao)}</td>
+    </tr>`;
+  }
+  const cab = `<thead><tr><th>Ticker</th><th>Fármaco</th><th>Estado</th><th>Cen./Val.</th><th>Catalisador</th><th style="text-align:right">Var. desde dados</th><th>Janela</th><th>Convicção</th></tr></thead>`;
+  $("tabela").innerHTML = vivos.length ? cab + "<tbody>" + vivos.map(linha).join("") + "</tbody>" : `<tr><td class="empty">Sem candidatos vivos. Corre a Fase 0.</td></tr>`;
+  $("tabela-arquivo").innerHTML = arquivo.length ? cab + "<tbody>" + arquivo.map(linha).join("") + "</tbody>" : `<tr><td class="empty">Arquivo vazio.</td></tr>`;
+
+  // ---- bars -----------------------------------------------------------
+  (function bars() {
+    const rows = vivos.filter(c => c.var_pct != null);
+    if (!rows.length) { $("bars").innerHTML = `<div class="empty">Sem variações registadas.</div>`; return; }
+    const max = Math.max(limiar + 20, ...rows.map(r => Math.abs(r.var_pct)));
+    const lo = -max, hi = max;
+    const pct = (v) => (v - lo) / (hi - lo) * 100;
+    $("bars").innerHTML = rows.map(r => {
+      const v = r.var_pct, z = pct(0), p = pct(v);
+      const left = Math.min(z, p), w = Math.abs(p - z);
+      return `<div class="bar-row">
+        <div class="lbl">${r.ticker}</div>
+        <div class="bar-track">
+          <div class="bar-fill ${v < 0 ? "neg" : "pos"}" style="left:${left}%;width:${w}%"></div>
+          <div class="bar-zero" style="left:${z}%"></div>
+          <div class="bar-thr" style="left:${pct(limiar)}%" title="limiar ${limiar}%"></div>
+        </div>
+        <div class="val ${v >= limiar ? "warn" : v < 0 ? "neg" : "pos"}">${fmtPct(v)}</div>
+      </div>`;
+    }).join("") + `<p class="bar-note">Limiar de janela fechada: ${limiar}%. Escala de ${lo}% a ${hi}%.</p>`;
+  })();
+
+  // ---- alerts ---------------------------------------------------------
+  const al = (dados.alertas || []).slice(0, 12);
+  $("alertas").innerHTML = al.length
+    ? al.map(a => `<li><span class="d">${fmtDate(a.data)}</span><span class="k">${a.ticker}</span><span class="tx"><span class="tipo">${a.tipo}</span> ${a.texto}</span></li>`).join("")
+    : `<li class="empty">Sem alertas.</li>`;
+})();
+</script>
+</body>
+</html>
