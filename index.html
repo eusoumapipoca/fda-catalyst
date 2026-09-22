@@ -1,297 +1,528 @@
-<!doctype html>
-<html lang="pt-PT">
+<!DOCTYPE html>
+<html lang="pt">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FDA Catalyst Watch</title>
+<title>FDA Catalyst Watch · Confluens</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #1b1712;
-    --panel: #221d16;
-    --rule: #3b3327;
-    --ink: #e9dfc8;
-    --dim: #9a8c6e;
-    --amber: #f2b23b;
-    --amber-soft: #b98329;
-    --up: #8fcb7a;
-    --down: #e06b4a;
-    --mono: "IBM Plex Mono", "SFMono-Regular", Menlo, Consolas, monospace;
-  }
-  * { box-sizing: border-box; }
-  html { background: var(--bg); }
-  body {
-    margin: 0; color: var(--ink); background: var(--bg);
-    font: 400 14px/1.55 var(--mono);
-    -webkit-font-smoothing: antialiased;
-  }
-  a { color: var(--amber); text-decoration: none; border-bottom: 1px solid var(--amber-soft); }
-  a:hover, a:focus-visible { border-bottom-color: var(--amber); }
-  :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+:root{
+  --papel:#F4F2E9;
+  --listra:#DCE7D5;
+  --tinta:#1B241C;
+  --tinta-fraca:#5C6B5E;
+  --linha:#A9B6A4;
+  --linha-forte:#5C6B5E;
+  --ganho:#2C6B41;
+  --perda:#A8392C;
+  --aviso:#9A6B10;
+  --furo:#C9C6BA;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--papel); color:var(--tinta);
+  font:400 14px/1.55 "IBM Plex Mono", ui-monospace, "SFMono-Regular",
+       Menlo, Consolas, monospace;
+  padding:0 0 64px;
+}
+.folha{max-width:1120px; margin:0 auto; padding:0 34px; position:relative}
+/* furos de arrastamento do papel contínuo */
+.folha::before,.folha::after{
+  content:""; position:absolute; top:0; bottom:0; width:22px;
+  background-image:radial-gradient(circle at 11px 11px, var(--furo) 3.5px, transparent 4px);
+  background-size:22px 34px; opacity:.85; pointer-events:none;
+}
+.folha::before{left:2px} .folha::after{right:2px}
+@media(max-width:760px){ .folha::before,.folha::after{display:none} .folha{padding:0 14px} }
 
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 32px 20px 64px; }
+/* ---------- cabecalho ---------- */
+header{padding:34px 0 18px; border-bottom:2px solid var(--tinta)}
+.marca{display:flex; align-items:baseline; gap:14px; flex-wrap:wrap}
+.marca a{color:var(--tinta-fraca); text-decoration:none; border-bottom:1px dotted var(--linha)}
+.marca a:hover{color:var(--tinta)}
+h1{font-size:26px; font-weight:600; margin:0; letter-spacing:-.01em}
+.linha-meta{
+  display:flex; gap:10px 26px; flex-wrap:wrap; margin-top:12px;
+  color:var(--tinta-fraca); font-size:12.5px;
+}
+.selo{
+  display:inline-block; padding:2px 9px; border:1px solid currentColor;
+  font-size:11.5px; font-weight:500;
+}
+.selo.ok{color:var(--ganho)} .selo.alerta{color:var(--aviso)}
 
-  header { border-bottom: 2px double var(--rule); padding-bottom: 16px; margin-bottom: 28px; }
-  header h1 { margin: 0 0 4px; font-size: 26px; font-weight: 600; letter-spacing: -0.01em; color: var(--amber); }
-  header h1 span { color: var(--dim); font-weight: 400; }
-  header p { margin: 0; color: var(--dim); }
-  header p b { color: var(--ink); font-weight: 500; }
+/* ---------- seccoes ---------- */
+section{padding:34px 0; border-bottom:1px solid var(--linha)}
+h2{font-size:15px; font-weight:600; margin:0 0 4px; letter-spacing:.01em}
+.sub{color:var(--tinta-fraca); font-size:12.5px; margin:0 0 20px; max-width:68ch}
 
-  section { margin: 0 0 40px; }
-  section h2 { font-size: 15px; font-weight: 600; margin: 0 0 10px; color: var(--ink); }
-  section h2::before { content: "> "; color: var(--amber); }
-  .lead { color: var(--dim); margin: 0 0 14px; max-width: 72ch; }
+/* ---------- linha temporal (heroi) ---------- */
+.timeline{width:100%; overflow-x:auto}
+.timeline svg{display:block; min-width:640px}
+.tl-nome{font-size:12.5px; font-weight:600; fill:var(--tinta)}
+.tl-eixo{font-size:11px; fill:var(--tinta-fraca)}
+.tl-hoje{stroke:var(--perda); stroke-width:1.5; stroke-dasharray:3 3}
+.tl-hoje-txt{font-size:10.5px; fill:var(--perda); font-weight:600}
 
-  /* timeline */
-  .timeline { border: 1px solid var(--rule); background: var(--panel); padding: 12px 8px 6px; overflow-x: auto; }
-  .timeline svg { display: block; width: 100%; height: auto; min-width: 640px; }
-  .timeline text { font-family: var(--mono); fill: var(--ink); font-size: 11px; }
-  .timeline .axis text { fill: var(--dim); }
-  .timeline .band { fill: var(--amber); opacity: 0.08; }
-  .timeline .band-edge { stroke: var(--amber-soft); stroke-dasharray: 3 3; }
-  .timeline .today { stroke: var(--ink); }
-  .timeline .mark-confirmed { fill: var(--amber); }
-  .timeline .mark-est { fill: var(--panel); stroke: var(--amber); stroke-width: 1.5; }
-  .timeline .mark-radar { fill: var(--dim); }
-  .legend { color: var(--dim); font-size: 12px; margin: 8px 0 0; display: flex; gap: 18px; flex-wrap: wrap; }
-  .legend i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
-  .legend .c { background: var(--amber); }
-  .legend .e { border: 1.5px solid var(--amber); }
-  .legend .r { background: var(--dim); }
+/* ---------- fichas ---------- */
+.fichas{display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+.ficha{border:2px solid var(--tinta); background:var(--papel)}
+.ficha-topo{
+  display:flex; justify-content:space-between; align-items:baseline;
+  padding:12px 16px; border-bottom:1px solid var(--tinta); background:var(--listra);
+}
+.ticker{font-size:22px; font-weight:600; letter-spacing:.02em}
+.dias{font-size:12px; color:var(--tinta-fraca); text-align:right}
+.dias b{display:block; font-size:19px; color:var(--tinta); font-weight:600}
+.ficha dl{margin:0; padding:14px 16px; display:grid; grid-template-columns:1fr auto; gap:7px 14px}
+.ficha dt{color:var(--tinta-fraca); font-size:12.5px}
+.ficha dd{margin:0; text-align:right; font-variant-numeric:tabular-nums}
+.ficha-rodape{padding:12px 16px; border-top:1px dashed var(--linha); font-size:12px}
+.verif{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+.verif a{
+  color:var(--tinta); text-decoration:none; border:1px solid var(--linha-forte);
+  padding:3px 9px; font-size:11.5px;
+}
+.verif a:hover{background:var(--tinta); color:var(--papel)}
+.vazio{
+  border:1px dashed var(--linha); padding:26px; text-align:center;
+  color:var(--tinta-fraca); font-size:13px;
+}
 
-  /* table */
-  .tablewrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--panel); }
-  table { border-collapse: collapse; width: 100%; min-width: 860px; }
-  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
-  th { color: var(--dim); font-weight: 500; }
-  tbody tr:last-child td { border-bottom: 0; }
-  td.t { color: var(--amber); font-weight: 600; white-space: nowrap; }
-  td .sub { color: var(--dim); display: block; font-size: 12px; }
-  td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
-  .pos { color: var(--up); } .neg { color: var(--down); } .warn { color: var(--amber); }
-  .pill { display: inline-block; padding: 1px 7px; border: 1px solid var(--rule); color: var(--dim); font-size: 12px; white-space: nowrap; }
-  .pill.ativo { border-color: var(--amber-soft); color: var(--amber); }
-  .pill.analise { border-color: var(--dim); color: var(--ink); }
-  details { margin-top: 10px; }
-  summary { cursor: pointer; color: var(--dim); }
-  summary:hover { color: var(--ink); }
+/* ---------- tabelas ---------- */
+.rolo{overflow-x:auto}
+table{border-collapse:collapse; width:100%; font-size:12.5px; min-width:620px}
+th{
+  text-align:left; font-weight:600; padding:7px 10px; white-space:nowrap;
+  border-bottom:2px solid var(--tinta);
+}
+td{padding:6px 10px; border-bottom:1px solid rgba(169,182,164,.45); font-variant-numeric:tabular-nums}
+tbody tr:nth-child(odd){background:var(--listra)}
+th.n, td.n{text-align:right}
+.falha{color:var(--tinta-fraca)}
+.motivo{
+  display:inline-block; border:1px solid var(--perda); color:var(--perda);
+  padding:0 5px; margin:1px 3px 1px 0; font-size:11px;
+}
+.pos{color:var(--ganho)} .neg{color:var(--perda)}
+tr.aberto td{background:repeating-linear-gradient(45deg,transparent,transparent 6px,rgba(154,107,16,.09) 6px,rgba(154,107,16,.09) 12px)}
+tr.expansivel{cursor:pointer}
+tr.expansivel:hover td{background:var(--listra)}
+.nota-linha td{
+  background:var(--papel)!important; border-bottom:1px solid var(--linha);
+  color:var(--tinta-fraca); font-size:12px; white-space:pre-wrap; padding:12px 14px;
+}
 
-  /* bars */
-  .bars { border: 1px solid var(--rule); background: var(--panel); padding: 14px 12px 10px; }
-  .bar-row { display: grid; grid-template-columns: 64px 1fr 64px; gap: 10px; align-items: center; margin: 6px 0; }
-  .bar-row .lbl { color: var(--amber); font-weight: 600; }
-  .bar-track { position: relative; height: 16px; background: var(--bg); border: 1px solid var(--rule); }
-  .bar-fill { position: absolute; top: 0; bottom: 0; }
-  .bar-fill.pos { background: var(--up); opacity: .85; }
-  .bar-fill.neg { background: var(--down); opacity: .85; }
-  .bar-zero { position: absolute; top: -2px; bottom: -2px; width: 1px; background: var(--ink); }
-  .bar-thr { position: absolute; top: -2px; bottom: -2px; width: 0; border-left: 1px dashed var(--amber); }
-  .bar-row .val { text-align: right; font-variant-numeric: tabular-nums; }
-  .bar-note { color: var(--dim); font-size: 12px; margin: 8px 0 0; }
+/* ---------- controlos ---------- */
+.filtros{display:flex; gap:0; margin-bottom:18px; flex-wrap:wrap}
+.filtros button{
+  font:inherit; font-size:12.5px; background:var(--papel); color:var(--tinta-fraca);
+  border:1px solid var(--linha-forte); border-right:none; padding:5px 14px; cursor:pointer;
+}
+.filtros button:last-child{border-right:1px solid var(--linha-forte)}
+.filtros button[aria-pressed="true"]{background:var(--tinta); color:var(--papel); font-weight:600}
 
-  /* alerts */
-  .alerts { list-style: none; margin: 0; padding: 0; border: 1px solid var(--rule); background: var(--panel); }
-  .alerts li { display: grid; grid-template-columns: 96px 64px 1fr; gap: 12px; padding: 8px 12px; border-bottom: 1px solid var(--rule); }
-  .alerts li:last-child { border-bottom: 0; }
-  .alerts .d { color: var(--dim); }
-  .alerts .k { color: var(--amber); font-weight: 600; }
-  .alerts .tipo { color: var(--dim); }
+/* ---------- resumo ---------- */
+.metricas{display:grid; gap:0; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); border:1px solid var(--linha-forte)}
+.metrica{padding:14px 16px; border-right:1px solid var(--linha-forte)}
+.metrica:last-child{border-right:none}
+.metrica .rot{color:var(--tinta-fraca); font-size:11.5px}
+.metrica .val{font-size:24px; font-weight:600; font-variant-numeric:tabular-nums; margin-top:3px}
+.metrica .pe{font-size:11.5px; color:var(--tinta-fraca)}
+@media(max-width:700px){ .metrica{border-right:none; border-bottom:1px solid var(--linha-forte)} }
 
-  footer { border-top: 1px solid var(--rule); padding-top: 14px; color: var(--dim); font-size: 12px; }
-  footer p { margin: 0 0 6px; max-width: 80ch; }
+.barra-amostra{margin-top:20px; border:1px solid var(--linha-forte); padding:13px 16px}
+.barra-fundo{height:9px; background:var(--listra); margin:9px 0 7px; position:relative}
+.barra-frente{height:100%; background:var(--tinta)}
 
-  .empty, .error { padding: 18px; border: 1px dashed var(--rule); color: var(--dim); }
-  .error b { color: var(--down); }
+/* ---------- funil ---------- */
+.funil{display:grid; gap:5px; max-width:640px}
+.fase{display:grid; grid-template-columns:170px 1fr 84px; align-items:center; gap:12px; font-size:12.5px}
+.fase-barra{height:19px; background:var(--listra); border:1px solid var(--linha-forte)}
+.fase-cheia{height:100%; background:var(--tinta)}
+.fase .n{text-align:right; font-variant-numeric:tabular-nums; color:var(--tinta-fraca)}
 
-  @media (max-width: 720px) {
-    .wrap { padding: 20px 14px 48px; }
-    header h1 { font-size: 21px; }
-    .bar-row { grid-template-columns: 52px 1fr 56px; }
-    .alerts li { grid-template-columns: 84px 1fr; }
-    .alerts li .k { grid-column: 2; }
-    .alerts li .tx { grid-column: 1 / -1; }
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .bar-fill { transition: width .35s ease; }
-  }
+/* ---------- regras ---------- */
+.regras{columns:2; column-gap:44px; font-size:12.5px; color:var(--tinta-fraca); max-width:760px}
+.regras div{break-inside:avoid; padding:3px 0; display:flex; justify-content:space-between; gap:16px;
+  border-bottom:1px dotted var(--linha)}
+.regras b{font-weight:500; color:var(--tinta); font-variant-numeric:tabular-nums}
+@media(max-width:620px){ .regras{columns:1} }
+
+footer{padding:26px 0 0; color:var(--tinta-fraca); font-size:12px; display:flex;
+  justify-content:space-between; gap:16px; flex-wrap:wrap}
+footer a{color:var(--tinta-fraca)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- especifico FDA ---------- */
+.tl-banda{fill:var(--listra)}
+.tl-banda-borda{stroke:var(--linha-forte); stroke-dasharray:4 3}
+.tl-banda-txt{font-size:10.5px; fill:var(--tinta-fraca)}
+.tl-radar{font-size:12.5px; font-weight:500; fill:var(--tinta-fraca)}
+.legenda{display:flex; gap:8px 22px; flex-wrap:wrap; margin-top:12px; font-size:11.5px; color:var(--tinta-fraca)}
+.legenda svg{vertical-align:-2px; margin-right:6px}
+.selo.cinza{color:var(--tinta-fraca)}
+.riscos{margin:6px 0 0; padding-left:16px; color:var(--tinta-fraca)}
+.riscos li{margin:2px 0}
+.var-barra{display:grid; grid-template-columns:64px 1fr 64px; gap:12px; align-items:center; font-size:12.5px; margin:5px 0; max-width:760px}
+.var-barra .t{font-weight:600}
+.var-fundo{height:15px; background:var(--listra); border:1px solid var(--linha-forte); position:relative}
+.var-cheia{position:absolute; top:0; bottom:0; background:var(--tinta)}
+.var-cheia.neg{background:var(--perda)}
+.var-zero{position:absolute; top:-3px; bottom:-3px; width:1px; background:var(--tinta)}
+.var-limiar{position:absolute; top:-5px; bottom:-5px; width:0; border-left:1.5px dashed var(--perda)}
+.var-barra .n{text-align:right; font-variant-numeric:tabular-nums}
+.alertas{list-style:none; margin:0; padding:0; border-top:2px solid var(--tinta)}
+.alertas li{display:grid; grid-template-columns:78px 58px 1fr; gap:12px; padding:6px 10px; font-size:12.5px;
+  border-bottom:1px solid rgba(169,182,164,.45)}
+.alertas li:nth-child(odd){background:var(--listra)}
+#tab-cand tbody tr:nth-child(odd){background:transparent}
+#tab-cand tbody tr.lista{background:var(--listra)}
+.alertas .tipo{display:inline-block; border:1px solid var(--linha-forte); padding:0 5px; margin-right:6px; font-size:11px; color:var(--tinta-fraca)}
+.alertas .tipo.expirado,.alertas .tipo.excluido{border-color:var(--perda); color:var(--perda)}
+.alertas .tipo.novo{border-color:var(--ganho); color:var(--ganho)}
+.alertas .tipo.rever,.alertas .tipo.run-up{border-color:var(--aviso); color:var(--aviso)}
+@media(max-width:620px){ .alertas li{grid-template-columns:70px 1fr} .alertas li .tx{grid-column:1/-1} }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>FDA Catalyst Watch <span>/ Confluens</span></h1>
-    <p id="meta">A carregar candidatos.json…</p>
-  </header>
+<div class="folha">
 
-  <section id="s-timeline">
-    <h2>Catalisadores na janela</h2>
-    <p class="lead">Data de decisão da FDA por candidato. A banda marca a janela rolante de 6 a 18 meses; quem cai à esquerda expira, quem cai à direita ainda não conta.</p>
-    <div class="timeline" id="timeline"></div>
-    <p class="legend"><span><i class="c"></i>PDUFA confirmada</span><span><i class="e"></i>data estimada</span><span><i class="r"></i>radar (pré-catalisador)</span></p>
-  </section>
+<header>
+  <div class="marca">
+    <h1>FDA Catalyst Watch</h1>
+    <a href="https://confluens.carrd.co/">Confluens</a>
+  </div>
+  <div class="linha-meta" id="meta"></div>
+</header>
 
-  <section id="s-table">
-    <h2>Candidatos</h2>
-    <p class="lead">Ordenados por convicção. A variação mede o fecho anterior aos dados de Fase 3 até ao último preço registado.</p>
-    <div class="tablewrap"><table id="tabela"></table></div>
-    <details id="arquivo"><summary>Expirados e excluídos</summary><div class="tablewrap" style="margin-top:8px"><table id="tabela-arquivo"></table></div></details>
-  </section>
+<section>
+  <h2>Catalisadores na janela</h2>
+  <p class="sub">Cada losango é a data de decisão da FDA. A faixa sombreada é a janela rolante de 6 a 18 meses:
+     à esquerda o catalisador já está perto demais, à direita ainda não conta. O tracejado mostra o deslize
+     de três meses que a framework assume por prudência.</p>
+  <div class="timeline" id="timeline"></div>
+  <div class="legenda" id="legenda"></div>
+</section>
 
-  <section id="s-bars">
-    <h2>Valorização desde os dados</h2>
-    <p class="lead">Acima da linha tracejada a janela de entrada está provavelmente fechada. Negativo sem recuperação não conta como aberta.</p>
-    <div class="bars" id="bars"></div>
-  </section>
+<section>
+  <h2>Candidatos ativos</h2>
+  <p class="sub" id="sub-ativos"></p>
+  <div id="fichas"></div>
+</section>
 
-  <section id="s-alerts">
-    <h2>Alertas recentes</h2>
-    <ul class="alerts" id="alertas"></ul>
-  </section>
+<section>
+  <h2>Valorização desde os dados de Fase 3</h2>
+  <p class="sub">Do fecho anterior ao anúncio dos dados até ao último preço registado. Acima da linha
+     tracejada, a janela de entrada está provavelmente fechada. Negativo só conta se a ação já recuperou.</p>
+  <div id="variacoes"></div>
+</section>
 
-  <footer>
-    <p>Estados: Radar, Triagem, Análise, Ativo, Posição, Fechado; laterais Descartado, Expirado, Excluído.</p>
-    <p>Só percentagens, sem valores monetários. Investigação e educação financeira pessoal; não constitui recomendação de investimento.</p>
-    <p><a href="https://confluens.carrd.co">Confluens</a>, onde as coisas convergem.</p>
-  </footer>
+<section>
+  <h2>Todos os candidatos</h2>
+  <p class="sub">Inclui os que foram descartados, expirados ou excluídos, com o motivo. Clica numa linha para ver o histórico.</p>
+  <div class="filtros" id="filtros-cand"></div>
+  <div class="rolo" id="tab-cand"></div>
+</section>
+
+<section>
+  <h2>Alertas recentes</h2>
+  <p class="sub">Gerados pela monitorização semanal: expirações, catalisadores a rever, mudanças de estado.</p>
+  <ul class="alertas" id="alertas"></ul>
+</section>
+
+<section>
+  <h2>Funil de seleção</h2>
+  <p class="sub">Quantos nomes sobreviveram a cada fase.</p>
+  <div class="funil" id="funil"></div>
+</section>
+
+<section style="border-bottom:none">
+  <h2>Regras em vigor</h2>
+  <p class="sub">Os limiares da framework v2.</p>
+  <div class="regras" id="regras"></div>
+</section>
+
+<footer>
+  <span id="rodape-ger"></span>
+  <span>Registo pessoal. Não é recomendação de investimento.</span>
+</footer>
+
 </div>
 
 <script>
-(async function () {
-  const $ = (id) => document.getElementById(id);
-  const fmtDate = (s) => {
-    if (!s) return "—";
-    const [y, m, d] = s.split("-");
-    return `${d}-${m}-${y}`;
-  };
-  const fmtPct = (v) => v == null ? "—" : `${v > 0 ? "+" : ""}${v}%`;
-  const ORDEM_CONV = { "alta": 0, "alta-media": 1, "media-alta": 2, "media": 3, "media-baixa": 4, "baixa": 5 };
-  const ORDEM_ESTADO = { "Ativo": 0, "Análise": 1, "Analise": 1, "Triagem": 2, "Radar": 3, "Posição": -1, "Posicao": -1 };
-  const ARQUIVO = new Set(["Expirado", "Excluído", "Excluido", "Descartado", "Fechado"]);
-  const labelConv = (c) => ({ "alta": "alta", "alta-media": "alta-média", "media-alta": "média-alta", "media": "média", "media-baixa": "média-baixa", "baixa": "baixa" }[c] || "—");
+/* ---------- utilitarios (iguais ao Earnings Runup) ---------- */
+const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const dt = s => s ? new Date(s + "T00:00:00") : null;
+const fdata = s => { const d = dt(s); return d ? `${d.getDate()} ${MESES[d.getMonth()]}` : "—"; };
+const fdataAno = s => { const d = dt(s); return d ? `${d.getDate()} ${MESES[d.getMonth()]} ${String(d.getFullYear()).slice(2)}` : "—"; };
+const fdataLonga = s => { const d = dt(s); return d ? `${d.getDate()} ${MESES[d.getMonth()]} ${d.getFullYear()}` : "—"; };
+const pct = (v, c = 0) => (v === null || v === undefined || v === "") ? "—" : (v > 0 ? "+" : "") + (+v).toFixed(c) + "%";
+const sinal = v => (v === null || v === undefined) ? "" : (v > 0 ? "pos" : (v < 0 ? "neg" : ""));
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const el = (id, html) => { const n = document.getElementById(id); if (n) n.innerHTML = html; };
+const dias = (a, b) => { const x = dt(a), y = dt(b); return (x && y) ? Math.round((y - x) / 864e5) : null; };
+const addDias = (s, n) => { const d = dt(s); if (!d) return null; d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+const addMeses = (s, n) => { const d = dt(s); if (!d) return null; d.setMonth(d.getMonth() + n); return d.toISOString().slice(0, 10); };
 
-  let dados;
-  try {
-    const r = await fetch("candidatos.json", { cache: "no-store" });
-    if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    dados = await r.json();
-  } catch (e) {
-    $("meta").innerHTML = `<b style="color:var(--down)">Não consegui ler candidatos.json</b> (${e.message}). Se abriste o ficheiro localmente, serve a pasta com um servidor simples ou publica no GitHub Pages.`;
-    return;
-  }
+const CONV = { "alta": "alta", "alta-media": "alta-média", "media-alta": "média-alta", "media": "média", "media-baixa": "média-baixa", "baixa": "baixa" };
+const ORDEM_CONV = { "alta": 0, "alta-media": 1, "media-alta": 2, "media": 3, "media-baixa": 4, "baixa": 5 };
+const norm = e => (e || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const VIVOS = new Set(["ativo", "analise", "posicao", "triagem"]);
 
-  const janela = dados.janela || {};
-  const limiar = dados.limiar_janela_pct ?? 65;
-  $("meta").innerHTML = `Janela <b>${fmtDate(janela.inicio)}</b> a <b>${fmtDate(janela.fim)}</b>. Atualizado a <b>${fmtDate(dados.atualizado)}</b>.`;
+fetch("candidatos.json", { cache: "no-store" })
+  .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+  .then(render)
+  .catch(e => el("meta", `<span class="selo alerta">Não consegui ler candidatos.json (${esc(e.message)})</span>`));
 
-  const cands = (dados.candidatos || []).slice();
-  const vivos = cands.filter(c => !ARQUIVO.has(c.estado));
-  const arquivo = cands.filter(c => ARQUIVO.has(c.estado));
-  const byConv = (a, b) => (ORDEM_ESTADO[a.estado] ?? 9) - (ORDEM_ESTADO[b.estado] ?? 9) || (ORDEM_CONV[a.conviccao] ?? 9) - (ORDEM_CONV[b.conviccao] ?? 9);
-  vivos.sort(byConv);
+function render(D) {
+  const hoje = D.atualizado;
+  const jan = D.janela || {};
+  const limiar = D.limiar_janela_pct ?? 65;
+  const todos = D.candidatos || [];
+  const vivos = todos.filter(c => VIVOS.has(norm(c.estado)))
+    .sort((a, b) => (ORDEM_CONV[a.conviccao] ?? 9) - (ORDEM_CONV[b.conviccao] ?? 9));
+  const radar = todos.filter(c => norm(c.estado) === "radar");
 
-  // ---- timeline -------------------------------------------------------
-  (function timeline() {
-    const hoje = new Date(dados.atualizado || Date.now());
-    const ini = new Date(janela.inicio), fim = new Date(janela.fim);
-    const t0 = new Date(hoje); t0.setMonth(t0.getMonth() - 1);
-    const t1 = new Date(fim); t1.setMonth(t1.getMonth() + 2);
-    const W = 1040, H = 150, L = 20, R = 20, y = 92;
-    const x = (d) => L + (W - L - R) * (d - t0) / (t1 - t0);
-    const pts = vivos.filter(c => c.catalisador && c.catalisador.data).map(c => ({ c, d: new Date(c.catalisador.data) }));
-    pts.sort((a, b) => a.d - b.d);
+  /* ---------- cabecalho ---------- */
+  const nAtivos = vivos.filter(c => norm(c.estado) === "ativo").length;
+  const idade = dias(hoje, new Date().toISOString().slice(0, 10));
+  el("meta", `
+    <span>Atualizado a ${fdataLonga(hoje)}</span>
+    <span>Janela de ${fdataLonga(jan.inicio)} a ${fdataLonga(jan.fim)}</span>
+    <span>${nAtivos} ativo(s) · ${radar.length} em radar</span>
+    <span class="selo ${idade !== null && idade <= 8 ? "ok" : "alerta"}">${idade !== null && idade <= 8
+      ? "Monitorização em dia" : `Última monitorização há ${idade} dias`}</span>`);
+  el("rodape-ger", `Atualizado a ${fdataLonga(hoje)} · <a href="https://confluens.carrd.co/">confluens</a>`);
 
-    let ticks = "";
-    const cur = new Date(t0.getFullYear(), t0.getMonth() + 1, 1);
-    while (cur <= t1) {
-      const xx = x(cur);
-      const first = cur.getMonth() === 0;
-      ticks += `<line x1="${xx}" y1="${y}" x2="${xx}" y2="${y + (first ? 10 : 5)}" stroke="var(--rule)"/>`;
-      if (cur.getMonth() % 3 === 0) ticks += `<text x="${xx}" y="${y + 24}" text-anchor="middle">${["jan","abr","jul","out"][cur.getMonth()/3]} ${String(cur.getFullYear()).slice(2)}</text>`;
+  /* ---------- linha temporal ---------- */
+  (function () {
+    const lista = vivos.concat(radar).filter(c => c.catalisador && c.catalisador.data)
+      .sort((a, b) => dt(a.catalisador.data) - dt(b.catalisador.data)).slice(0, 14);
+    if (!lista.length) { el("timeline", `<div class="vazio">Sem catalisadores datados.</div>`); return; }
+
+    const datas = lista.flatMap(c => [dt(c.catalisador.data), dt(addMeses(c.catalisador.data, 3))])
+      .concat([dt(hoje), dt(jan.inicio), dt(jan.fim)]).filter(Boolean);
+    const min = new Date(Math.min(...datas)), max = new Date(Math.max(...datas));
+    const pad = 12 * 864e5, t0 = +min - pad, t1 = +max + pad;
+    const L = 178, R = 110, H = 34, topo = 30;
+    const W = 980, alt = topo + lista.length * H + 34;
+    const x = t => L + ((t - t0) / (t1 - t0)) * (W - L - R);
+
+    let s = `<svg viewBox="0 0 ${W} ${alt}" role="img" aria-label="Datas de decisão da FDA e janela rolante">`;
+    const xi = x(+dt(jan.inicio)), xf = x(+dt(jan.fim));
+    s += `<rect class="tl-banda" x="${xi}" y="${topo - 12}" width="${xf - xi}" height="${alt - topo - 14}"/>
+          <line class="tl-banda-borda" x1="${xi}" y1="${topo - 16}" x2="${xi}" y2="${alt - 26}"/>
+          <line class="tl-banda-borda" x1="${xf}" y1="${topo - 16}" x2="${xf}" y2="${alt - 26}"/>
+          <text class="tl-banda-txt" x="${xi + 4}" y="${topo - 18}">6 meses</text>
+          <text class="tl-banda-txt" x="${xf - 4}" y="${topo - 18}" text-anchor="end">18 meses</text>`;
+
+    const xhoje = x(+dt(hoje));
+    const cur = new Date(min.getFullYear(), min.getMonth(), 1);
+    while (+cur <= t1) {
+      if (+cur >= t0 && cur.getMonth() % 2 === 0) {
+        const xc = x(+cur);
+        s += `<line x1="${xc}" y1="${topo - 12}" x2="${xc}" y2="${alt - 26}" stroke="var(--linha)" stroke-width="1"/>`;
+        if (Math.abs(xc - xhoje) > 30) {
+          const rot = cur.getMonth() === 0 ? `${MESES[0]} ${String(cur.getFullYear()).slice(2)}` : MESES[cur.getMonth()];
+          s += `<text class="tl-eixo" x="${xc + 4}" y="${alt - 12}">${rot}</text>`;
+        }
+      }
       cur.setMonth(cur.getMonth() + 1);
     }
 
-    // labels alternate above/below to avoid collisions
-    let marks = "";
-    pts.forEach((p, i) => {
-      const xx = x(p.d);
-      const conf = p.c.catalisador.confirmada;
-      const radar = p.c.estado === "Radar";
-      const cls = radar ? "mark-radar" : conf ? "mark-confirmed" : "mark-est";
-      const up = i % 2 === 0;
-      const ly = up ? y - 30 - (i % 4 === 0 ? 0 : 16) : y + 44 + (i % 4 === 1 ? 0 : 16);
-      marks += `<line x1="${xx}" y1="${y}" x2="${xx}" y2="${ly + (up ? 4 : -12)}" stroke="var(--rule)"/>`;
-      marks += `<circle cx="${xx}" cy="${y}" r="5" class="${cls}"/>`;
-      marks += `<text x="${xx}" y="${ly}" text-anchor="middle" style="font-weight:600">${p.c.ticker}</text>`;
-      marks += `<text x="${xx}" y="${ly + 12}" text-anchor="middle" style="fill:var(--dim);font-size:10px">${fmtDate(p.c.catalisador.data).slice(0, 5)}</text>`;
+    lista.forEach((c, i) => {
+      const y = topo + i * H;
+      const cat = c.catalisador;
+      const f = x(+dt(cat.data)), f3 = x(+dt(addMeses(cat.data, 3)));
+      const sa = x(+dt(addDias(cat.data, -15)));
+      const eRadar = norm(c.estado) === "radar";
+      s += `<text class="${eRadar ? "tl-radar" : "tl-nome"}" x="0" y="${y + 15}">${esc(c.ticker)}</text>`;
+      s += `<text class="tl-eixo" x="58" y="${y + 15}">${esc(eRadar ? "radar · " + (cat.tipo || "") : (cat.tipo || ""))}</text>`;
+      if (!eRadar) {
+        s += `<line x1="${f}" y1="${y + 10.5}" x2="${f3}" y2="${y + 10.5}" stroke="var(--linha-forte)" stroke-width="1" stroke-dasharray="2 3"/>`;
+        s += `<line x1="${sa}" y1="${y + 4}" x2="${sa}" y2="${y + 17}" stroke="var(--tinta)" stroke-width="1.5"/>`;
+      }
+      const cheio = cat.confirmada && !eRadar;
+      s += `<path d="M${f} ${y + 3} L${f + 7} ${y + 10.5} L${f} ${y + 18} L${f - 7} ${y + 10.5} Z"
+             fill="${cheio ? "var(--tinta)" : "var(--papel)"}" stroke="${eRadar ? "var(--tinta-fraca)" : "var(--tinta)"}" stroke-width="1.5"/>`;
+      s += `<text class="tl-eixo" x="${(eRadar ? f : f3) + 12}" y="${y + 14}">${fdataAno(cat.data)}${cat.confirmada ? "" : " (est.)"}</text>`;
     });
 
-    $("timeline").innerHTML = `
-      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Linha temporal dos catalisadores">
-        <rect class="band" x="${x(ini)}" y="20" width="${x(fim) - x(ini)}" height="${H - 40}"/>
-        <line class="band-edge" x1="${x(ini)}" y1="20" x2="${x(ini)}" y2="${H - 20}"/>
-        <line class="band-edge" x1="${x(fim)}" y1="20" x2="${x(fim)}" y2="${H - 20}"/>
-        <line x1="${L}" y1="${y}" x2="${W - R}" y2="${y}" stroke="var(--rule)"/>
-        <g class="axis">${ticks}</g>
-        <line class="today" x1="${x(hoje)}" y1="${y - 8}" x2="${x(hoje)}" y2="${y + 8}"/>
-        <text x="${x(hoje)}" y="${y - 12}" text-anchor="middle" style="fill:var(--dim);font-size:10px">hoje</text>
-        <text x="${x(ini) + 4}" y="${H - 6}" style="fill:var(--amber-soft);font-size:10px">6 meses</text>
-        <text x="${x(fim) - 4}" y="${H - 6}" text-anchor="end" style="fill:var(--amber-soft);font-size:10px">18 meses</text>
-        ${marks}
-      </svg>`;
+    s += `<line class="tl-hoje" x1="${xhoje}" y1="${topo - 16}" x2="${xhoje}" y2="${alt - 14}"/>
+          <text class="tl-hoje-txt" x="${xhoje + 4}" y="${alt - 12}">hoje</text></svg>`;
+    el("timeline", s);
+
+    const los = (f, st) => `<svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1 L13 7 L7 13 L1 7 Z" fill="${f}" stroke="${st}" stroke-width="1.5"/></svg>`;
+    el("legenda", `
+      <span>${los("var(--tinta)", "var(--tinta)")}PDUFA confirmada</span>
+      <span>${los("var(--papel)", "var(--tinta)")}data estimada</span>
+      <span>${los("var(--papel)", "var(--tinta-fraca)")}radar: data do readout</span>
+      <span><svg width="14" height="14"><line x1="7" y1="1" x2="7" y2="13" stroke="var(--tinta)" stroke-width="1.5"/></svg>saída (PDUFA − 15 dias)</span>
+      <span><svg width="22" height="14"><line x1="1" y1="7" x2="21" y2="7" stroke="var(--linha-forte)" stroke-dasharray="2 3"/></svg>deslize de +3 meses</span>`);
   })();
 
-  // ---- tables ---------------------------------------------------------
-  function linha(c) {
-    const v = c.var_pct;
-    const vcls = v == null ? "" : v >= limiar ? "warn" : v < 0 ? "neg" : "pos";
-    const rec = v != null && v < 0 ? (c.recuperou === true ? " (recuperou)" : c.recuperou === false ? " (não recuperou)" : "") : "";
-    const base = c.base && c.base.data ? `<span class="sub">base ${fmtDate(c.base.data)}${c.base.estimada ? ", est." : ""}</span>` : "";
-    const cat = c.catalisador || {};
-    const estCls = c.estado === "Ativo" ? "ativo" : /an[aá]lise/i.test(c.estado) ? "analise" : "";
-    return `<tr>
-      <td class="t">${c.ticker}<span class="sub" style="font-weight:400">${c.empresa || ""}</span></td>
-      <td>${c.farmaco || ""}<span class="sub">${c.indicacao || ""}</span></td>
-      <td><span class="pill ${estCls}">${c.estado}</span></td>
-      <td>${c.cenario || "—"} / ${c.validacao || "—"}</td>
-      <td>${cat.tipo || "—"} ${fmtDate(cat.data)}${cat.confirmada === false ? '<span class="sub">estimada</span>' : ""}</td>
-      <td class="num ${vcls}">${fmtPct(v)}${rec}${base}</td>
-      <td>${c.janela || "—"}</td>
-      <td>${labelConv(c.conviccao)}</td>
-    </tr>`;
-  }
-  const cab = `<thead><tr><th>Ticker</th><th>Fármaco</th><th>Estado</th><th>Cen./Val.</th><th>Catalisador</th><th style="text-align:right">Var. desde dados</th><th>Janela</th><th>Convicção</th></tr></thead>`;
-  $("tabela").innerHTML = vivos.length ? cab + "<tbody>" + vivos.map(linha).join("") + "</tbody>" : `<tr><td class="empty">Sem candidatos vivos. Corre a Fase 0.</td></tr>`;
-  $("tabela-arquivo").innerHTML = arquivo.length ? cab + "<tbody>" + arquivo.map(linha).join("") + "</tbody>" : `<tr><td class="empty">Arquivo vazio.</td></tr>`;
-
-  // ---- bars -----------------------------------------------------------
-  (function bars() {
-    const rows = vivos.filter(c => c.var_pct != null);
-    if (!rows.length) { $("bars").innerHTML = `<div class="empty">Sem variações registadas.</div>`; return; }
-    const max = Math.max(limiar + 20, ...rows.map(r => Math.abs(r.var_pct)));
-    const lo = -max, hi = max;
-    const pct = (v) => (v - lo) / (hi - lo) * 100;
-    $("bars").innerHTML = rows.map(r => {
-      const v = r.var_pct, z = pct(0), p = pct(v);
-      const left = Math.min(z, p), w = Math.abs(p - z);
-      return `<div class="bar-row">
-        <div class="lbl">${r.ticker}</div>
-        <div class="bar-track">
-          <div class="bar-fill ${v < 0 ? "neg" : "pos"}" style="left:${left}%;width:${w}%"></div>
-          <div class="bar-zero" style="left:${z}%"></div>
-          <div class="bar-thr" style="left:${pct(limiar)}%" title="limiar ${limiar}%"></div>
+  /* ---------- fichas ---------- */
+  (function () {
+    const lista = vivos;
+    if (!lista.length) {
+      el("sub-ativos", "");
+      el("fichas", `<div class="vazio">Nenhum candidato ativo. É um resultado válido: a estratégia só paga por seleção.</div>`);
+      return;
+    }
+    el("sub-ativos", "Ordenados por convicção. A saída planeada é 15 dias antes da PDUFA; com data estimada, confirma-a antes de dimensionar.");
+    el("fichas", `<div class="fichas">` + lista.map(c => {
+      const cat = c.catalisador || {};
+      const dcat = dias(hoje, cat.data);
+      const v = c.var_pct;
+      const rec = v != null && v < 0 ? (c.recuperou === true ? " · recuperou" : c.recuperou === false ? " · não recuperou" : "") : "";
+      const base = c.base && c.base.data ? `<br><span class="falha" style="font-size:11.5px">base ${fdataAno(c.base.data)}${c.base.estimada ? " est." : ""}</span>` : "";
+      const linhas = [
+        ["Fármaco", esc(c.farmaco)],
+        ["Indicação", esc(c.indicacao)],
+        ["Cenário · val.", `${esc(c.cenario || "—")} · ${esc(c.validacao || "—")}`],
+        ["Catalisador", `${esc(cat.tipo || "")} ${fdataAno(cat.data)}${cat.confirmada ? "" : " est."}`],
+        ["Saída", fdataAno(addDias(cat.data, -15))],
+        ["Var. desde dados", `<span class="${v >= limiar ? "neg" : sinal(v)}">${pct(v)}${rec}</span>${base}`],
+        ["Janela", esc(c.janela || "—")],
+        ["Convicção", esc(CONV[c.conviccao] || "—")],
+        ["Runway", c.runway_trimestres ? `${c.runway_trimestres} trim.` : "—"],
+        ["Extensão", esc(c.risco_extensao || "—")],
+      ];
+      const riscos = (c.riscos || []).filter(Boolean);
+      return `<article class="ficha">
+        <div class="ficha-topo">
+          <span><span class="ticker">${esc(c.ticker)}</span>
+            <span class="selo ${norm(c.estado) === "ativo" ? "ok" : "cinza"}" style="margin-left:8px;vertical-align:4px">${esc(c.estado)}</span>
+            <br><span class="falha" style="font-size:12px">${esc(c.empresa || "")}</span></span>
+          <span class="dias">decisão em<b>${dcat === null ? "—" : dcat + " d"}</b></span>
         </div>
-        <div class="val ${v >= limiar ? "warn" : v < 0 ? "neg" : "pos"}">${fmtPct(v)}</div>
-      </div>`;
-    }).join("") + `<p class="bar-note">Limiar de janela fechada: ${limiar}%. Escala de ${lo}% a ${hi}%.</p>`;
+        <dl>${linhas.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>
+        <div class="ficha-rodape">
+          ${riscos.length ? `Riscos principais<ul class="riscos">${riscos.map(r => `<li>${esc(r)}</li>`).join("")}</ul>` : ""}
+          ${cat.nota ? `<div style="margin-top:6px;color:var(--tinta-fraca)">${esc(cat.nota)}</div>` : ""}
+          <div class="verif">
+            <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${encodeURIComponent(c.ticker)}&type=8-K&dateb=&owner=include&count=40"
+               target="_blank" rel="noopener">8-K na SEC</a>
+            <a href="https://clinicaltrials.gov/search?term=${encodeURIComponent(c.farmaco || c.ticker)}"
+               target="_blank" rel="noopener">ClinicalTrials.gov</a>
+            <a href="https://finviz.com/quote.ashx?t=${encodeURIComponent(c.ticker)}"
+               target="_blank" rel="noopener">Cotação</a>
+          </div>
+        </div>
+      </article>`;
+    }).join("") + `</div>`);
   })();
 
-  // ---- alerts ---------------------------------------------------------
-  const al = (dados.alertas || []).slice(0, 12);
-  $("alertas").innerHTML = al.length
-    ? al.map(a => `<li><span class="d">${fmtDate(a.data)}</span><span class="k">${a.ticker}</span><span class="tx"><span class="tipo">${a.tipo}</span> ${a.texto}</span></li>`).join("")
-    : `<li class="empty">Sem alertas.</li>`;
-})();
+  /* ---------- variacoes ---------- */
+  (function () {
+    const lista = vivos.concat(radar).filter(c => c.var_pct !== null && c.var_pct !== undefined);
+    if (!lista.length) { el("variacoes", `<div class="vazio">Sem variações registadas.</div>`); return; }
+    const m = Math.max(limiar + 20, ...lista.map(c => Math.abs(c.var_pct)));
+    const p = v => (v + m) / (2 * m) * 100;
+    el("variacoes", lista.map(c => {
+      const v = c.var_pct, z = p(0), q = p(v);
+      return `<div class="var-barra">
+        <span class="t">${esc(c.ticker)}</span>
+        <div class="var-fundo">
+          <div class="var-cheia ${v < 0 ? "neg" : ""}" style="left:${Math.min(z, q)}%;width:${Math.abs(q - z)}%"></div>
+          <div class="var-zero" style="left:${z}%"></div>
+          <div class="var-limiar" style="left:${p(limiar)}%" title="limiar ${limiar}%"></div>
+        </div>
+        <span class="n ${v >= limiar ? "neg" : sinal(v)}">${pct(v)}</span>
+      </div>`;
+    }).join("") + `<p class="sub" style="margin:12px 0 0">Limiar de janela fechada: +${limiar}%. Escala de −${Math.round(m)}% a +${Math.round(m)}%.</p>`);
+  })();
+
+  /* ---------- tabela de todos ---------- */
+  (function () {
+    const grupos = [
+      ["todos", "Todos", () => true],
+      ["vivos", "Ativos e análise", c => VIVOS.has(norm(c.estado))],
+      ["radar", "Radar", c => norm(c.estado) === "radar"],
+      ["expirado", "Expirados", c => norm(c.estado) === "expirado"],
+      ["excluido", "Excluídos", c => norm(c.estado) === "excluido"],
+      ["descartado", "Descartados", c => norm(c.estado) === "descartado"],
+    ];
+    const ordemEstado = { ativo: 0, posicao: 0, analise: 1, triagem: 2, radar: 3, expirado: 4, excluido: 5, descartado: 6, fechado: 7 };
+    let ativo = "vivos";
+    const pintar = () => {
+      el("filtros-cand", grupos.map(([k, rot, f]) =>
+        `<button type="button" data-k="${k}" aria-pressed="${k === ativo}">${rot} (${todos.filter(f).length})</button>`).join(""));
+      document.querySelectorAll("#filtros-cand button").forEach(b => b.onclick = () => { ativo = b.dataset.k; pintar(); });
+      const f = grupos.find(g => g[0] === ativo)[2];
+      const lista = todos.filter(f).sort((a, b) =>
+        (ordemEstado[norm(a.estado)] ?? 9) - (ordemEstado[norm(b.estado)] ?? 9) || a.ticker.localeCompare(b.ticker));
+      if (!lista.length) { el("tab-cand", `<div class="vazio">Nenhum nome neste estado.</div>`); return; }
+      el("tab-cand", `<table><thead><tr>
+        <th>Ticker</th><th>Empresa</th><th>Estado</th><th>Catalisador</th>
+        <th class="n">Var.</th><th>Convicção</th><th>Motivo / nota</th></tr></thead><tbody>${lista.map((c, i) => {
+          const cat = c.catalisador || {};
+          const h = c.historico || [];
+          const ult = h.length ? h[h.length - 1].evento : "";
+          const morto = ["descartado", "excluido", "expirado"].includes(norm(c.estado));
+          return `<tr class="expansivel ${i % 2 === 0 ? "lista" : ""} ${norm(c.estado) === "ativo" ? "aberto" : ""}" data-i="${i}">
+            <td><b>${esc(c.ticker)}</b></td>
+            <td>${esc(c.empresa || "—")}</td>
+            <td>${esc(c.estado)}</td>
+            <td>${cat.data ? `${esc(cat.tipo || "")} ${fdataAno(cat.data)}${cat.confirmada ? "" : " est."}` : "—"}</td>
+            <td class="n ${sinal(c.var_pct)}">${pct(c.var_pct)}</td>
+            <td>${esc(CONV[c.conviccao] || "—")}</td>
+            <td class="${morto ? "falha" : ""}">${morto && ult ? `<span class="motivo">${esc(c.estado.toLowerCase())}</span>` : ""}${esc(ult.replace(/^Fase 2: |^Radar: /, ""))}</td></tr>
+          <tr class="nota-linha" data-nota="${i}" hidden><td colspan="7">${
+            esc(h.length ? h.map(x => `${fdataLonga(x.data)} · ${x.evento}`).join("\n") : "Sem histórico registado.")}</td></tr>`;
+        }).join("")}</tbody></table>`);
+      document.querySelectorAll("#tab-cand tr.expansivel").forEach(tr => tr.onclick = () => {
+        const n = document.querySelector(`#tab-cand tr[data-nota="${tr.dataset.i}"]`);
+        if (n) n.hidden = !n.hidden;
+      });
+    };
+    pintar();
+  })();
+
+  /* ---------- alertas ---------- */
+  (function () {
+    const al = (D.alertas || []).slice(0, 15);
+    el("alertas", al.length ? al.map(a => `<li>
+        <span class="falha">${fdata(a.data)}</span>
+        <b>${esc(a.ticker)}</b>
+        <span class="tx"><span class="tipo ${esc(norm(a.tipo))}">${esc(a.tipo)}</span>${esc(a.texto)}</span></li>`).join("")
+      : `<li class="vazio">Sem alertas.</li>`);
+  })();
+
+  /* ---------- funil ---------- */
+  (function () {
+    const n = e => todos.filter(c => e.includes(norm(c.estado))).length;
+    const total = todos.length;
+    const fases = [
+      ["Entraram no funil", total],
+      ["Passaram a ficha rápida", total - n(["descartado", "radar"])],
+      ["Análise completa", n(["ativo", "analise", "posicao", "expirado", "excluido", "fechado"])],
+      ["Ativos agora", n(["ativo", "posicao"])],
+    ];
+    el("funil", fases.map(([rot, v]) => `<div class="fase">
+        <span>${rot}</span>
+        <div class="fase-barra"><div class="fase-cheia" style="width:${total ? v / total * 100 : 0}%"></div></div>
+        <span class="n">${v}</span></div>`).join(""));
+  })();
+
+  /* ---------- regras ---------- */
+  el("regras", [
+    ["Janela de catalisador", "6 a 18 meses"],
+    ["Limiar de janela fechada", `+${limiar}%`],
+    ["Preço-base", "fecho antes dos dados"],
+    ["Runway mínimo", "6 trimestres"],
+    ["Saída planeada", "PDUFA − 15 dias"],
+    ["Deslize assumido", "+3 meses"],
+    ["Taxa de CRL para dimensionar", "~30%"],
+    ["Validação mínima", "nível B"],
+    ["Primário falhado + subgrupo", "exclui"],
+    ["Queda nos dados sem recuperar", "exclui"],
+  ].map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join(""));
+}
 </script>
 </body>
 </html>
